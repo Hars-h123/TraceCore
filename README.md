@@ -61,7 +61,7 @@ TraceCore/
 ### Clone the Repository
 
 ```bash
-git clone <your-repo-link>
+git clone <git@github.com:Hars-h123/TraceCore.git>
 cd TraceCore
 ```
 
