@@ -1,97 +1,146 @@
-# TraceCore — Professional Data Recovery Software
+# TraceCore
 
-A native desktop data recovery application built with Python + PyQt6.
-Performs real filesystem and raw sector scanning — no web tech, no simulation.
+Professional desktop data recovery software built with Python and PyQt6.  
+TraceCore performs real filesystem and raw sector scanning to detect, preview, and recover deleted, hidden, or lost files — all through a clean native desktop interface.
 
-## Project Structure
-
-```
-TraceCore/
-├── src/
-│   ├── main.py       — Qt6 GUI: all screens, scan progress, file list, preview, recovery
-│   ├── scanner.py    — Scan engine: quick scan + deep scan (file carving by magic bytes)
-│   └── drives.py     — Drive/volume enumeration (Linux, macOS, Windows)
-├── TraceCore.spec    — PyInstaller build config
-├── build.sh          — Linux/macOS build script
-├── build_windows.bat — Windows build script
-├── requirements.txt  — Python dependencies
-└── README.md
-```
+---
 
 ## Features
 
-- **Quick Scan** — Filesystem walk, finds all accessible files + detects deleted files
-  still open in /proc (Linux)
-- **Deep Scan** — Raw byte scan with file carving using magic number signatures
-- **Supports**: JPG, PNG, GIF, BMP, MP4, AVI, MP3, WAV, PDF, DOCX, XLSX, ZIP, 7Z, RAR, TXT, EXE
-- **Preview** — Inline image rendering + text preview panel
-- **Recovery** — Copies active files or reconstructs carved data to any destination folder
-- **Drive picker** — Enumerates all mounted volumes + raw block devices
-- **Folder scan** — Browse and scan any specific folder/path
-- **Filter** — Filter results by file extension
+- Quick Scan for fast filesystem-based recovery
+- Deep Scan with raw sector file carving
+- Supports recovery of images, videos, documents, archives, audio files, executables, and more
+- Live scan results with filtering support
+- Built-in preview for images and text files
+- Drive & folder scanning support
+- Cross-platform support for Windows, Linux, and macOS
+- Native desktop experience — no browser or web wrappers
 
-## Build Instructions
+---
+
+## Supported File Types
+
+| Category | Formats |
+|----------|----------|
+| Images | JPG, PNG, GIF, BMP |
+| Videos | MP4, AVI |
+| Audio | MP3, WAV |
+| Documents | PDF, DOCX, XLSX, TXT |
+| Archives | ZIP, 7Z, RAR |
+| Executables | EXE |
+
+---
+
+## Tech Stack
+
+- Python
+- PyQt6
+- PyInstaller
+
+---
+
+## Project Structure
+
+```bash
+TraceCore/
+├── src/
+│   ├── main.py
+│   ├── scanner.py
+│   └── drives.py
+├── TraceCore.spec
+├── build.sh
+├── build_windows.bat
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## Installation
+
+### Clone the Repository
+
+```bash
+git clone <your-repo-link>
+cd TraceCore
+```
+
+### Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Running in Development Mode
+
+```bash
+cd src
+python main.py
+```
+
+---
+
+## Building the Application
 
 ### Linux / macOS
 
 ```bash
-# Install dependencies
-pip install PyQt6 pyinstaller
-
-# Build
 chmod +x build.sh
 ./build.sh
-
-# Run
-./dist/TraceCore
-
-# For raw disk access (block devices like /dev/sda):
-sudo ./dist/TraceCore
-# OR add yourself to disk group:
-sudo usermod -a -G disk $USER
 ```
 
 ### Windows
 
 ```bat
-REM Run as Administrator for raw disk access
 build_windows.bat
-dist\TraceCore.exe
 ```
 
-### Run without building (development mode)
+The final executable will be available inside the `dist/` folder.
 
-```bash
-pip install PyQt6
-cd src
-python3 main.py
-```
+---
 
 ## Permissions
 
-| Feature | Requires |
-|---------|----------|
-| Folder scan | Normal user |
-| Mounted drive scan | Normal user |
-| Raw block device scan (/dev/sdX) | root or disk group |
-| /proc deleted file detection | Normal user |
+Some advanced recovery operations may require administrator/root access for raw disk scanning.
 
-## Technical Notes
+| Feature | Permission |
+|----------|-------------|
+| Folder Scan | Normal User |
+| Mounted Drive Scan | Normal User |
+| Raw Sector Scan | Administrator / Root |
 
-- **Read-only**: TraceCore never writes to scanned drives/devices
-- **File carving** reads raw bytes in 512KB blocks with overlap buffering
-  to catch signatures that span block boundaries
-- **Magic numbers** used for: JPG (FF D8 FF), PNG (89 50 4E 47), PDF (%PDF-),
-  ZIP/DOCX/XLSX (PK\x03\x04), MP4 (ftyp), MP3 (FF FB / ID3), and more
-- **Live results**: Shows files as they are found during scan (up to 5,000 live rows)
-- **Deep scan on folders**: Carves every file in the folder for embedded/hidden data
-- **Deep scan on devices**: Reads raw sectors sequentially from start to end
+---
 
-## Colors / Theme
+## How TraceCore Works
 
-| Variable | Hex | Usage |
-|----------|-----|-------|
-| Primary | #FE7743 | Buttons, progress bars, highlights |
-| Background | #EFEEEA | Main window background |
-| Accent | #273F4F | Headers, sidebar, table headers |
-| Base | #000000 | Text |
+### Quick Scan
+Scans the filesystem structure to locate accessible and recently deleted files quickly.
+
+### Deep Scan
+Performs low-level raw byte scanning using file signature detection (magic numbers) to recover fragmented or hidden data directly from storage sectors.
+
+---
+
+## Design Philosophy
+
+TraceCore focuses on:
+- Simplicity
+- Native desktop performance
+- Read-only recovery safety
+- Lightweight architecture
+- Practical usability over unnecessary complexity
+
+---
+
+## Disclaimer
+
+TraceCore is intended for educational, recovery, and research purposes only.  
+Always avoid writing new data to a drive after accidental deletion to maximize recovery success.
+
+---
+
+## Author
+
+Developed by Harsh Damania
